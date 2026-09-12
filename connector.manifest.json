@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "provider": "windows",
+  "tags": ["Windows", "Azure", "MicrosoftStore"],
+  "created_at": "2026-09-12T08:05:25+02:00",
+  "module": "github.com/antonysc/Windows",
+  "contract": "contracts/external-provider-contract.json",
+  "pods": {
+    "azure": {
+      "catalog": "catalog/azure-capabilities.json",
+      "account_selector": "pod=azure",
+      "credential_boundary": "independent"
+    },
+    "microsoft-store": {
+      "catalog": "catalog/microsoft-store-capabilities.json",
+      "account_selector": "pod=microsoft-store",
+      "credential_boundary": "independent"
+    }
+  },
+  "accounts": "config/accounts.json",
+  "profiles_directory": "profiles",
+  "implementations": {
+    "go": {
+      "status": "poc",
+      "commands": {
+        "azure.connectivity.check": ["go", "run", "./adapters/go/cmd/windows-provider-check", "--pod", "azure"],
+        "microsoft-store.connectivity.check": ["go", "run", "./adapters/go/cmd/windows-provider-check", "--pod", "microsoft-store"]
+      }
+    },
+    "rust": {"status": "planned", "commands": {}},
+    "python": {"status": "planned", "commands": {}}
+  },
+  "default_runtime": "go",
+  "default_secret_backend": "environment",
+  "production_mutations": "approval_required"
+}
+

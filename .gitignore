@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.pem
+*.pfx
+*.cer
+*.key
+.env
+connection-report.json
+work/
+

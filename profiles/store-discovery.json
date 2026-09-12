@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"store-discovery","pod":"microsoft-store","account":"microsoft-store-prod","runtime":"go","enabled":true,"commands":["microsoft-store.connectivity.check"],"risk":"read_only","required_credentials":["tenant_id","client_id","client_secret","seller_id","product_id"],"success":"OAuth token obtained and bounded draft metadata GET returns HTTP 200"}
+

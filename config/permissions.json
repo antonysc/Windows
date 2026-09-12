@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "azure": {
+    "identities": ["human_admin", "service_principal", "managed_identity", "federated_workload_identity"],
+    "roles": ["Reader", "Monitoring Reader", "Cost Management Reader", "Resource Policy Contributor", "Contributor", "User Access Administrator", "Owner", "service-specific data-plane roles"],
+    "profiles": {
+      "discovery": {"starting_roles": ["Reader"], "risk": "read_only"},
+      "monitoring": {"starting_roles": ["Reader", "Monitoring Reader", "Cost Management Reader"], "risk": "read_only"},
+      "delivery-dev": {"starting_role": "custom deployment role scoped to a development resource group", "risk": "controlled"},
+      "release-prod": {"starting_role": "custom least-privilege role scoped to approved resources", "risk": "approval_required"}
+    }
+  },
+  "microsoft_store": {
+    "identities": ["account_owner", "manager", "developer", "partner_center_entra_application"],
+    "profiles": {
+      "discovery": {"risk": "read_only", "access": "application and draft metadata read"},
+      "monitoring": {"risk": "read_only", "access": "submission, certification and rollout status"},
+      "delivery-dev": {"risk": "controlled", "access": "package, metadata and flight changes"},
+      "release-prod": {"risk": "approval_required", "access": "production submission and rollout"}
+    },
+    "warning": "Partner Center roles may not restrict EXE/MSI applications as expected; validate effective access with a dedicated test product."
+  },
+  "rules": [
+    "Never use Global Administrator, Azure Owner or Partner Center account owner in routine CI.",
+    "Scope Azure identities to the smallest management group, subscription or resource group possible.",
+    "Separate control-plane from data-plane roles and separate development from production identities.",
+    "Treat HTTP 401 as authentication failure and HTTP 403 as permission or scope drift.",
+    "Require two-person approval for RBAC, policy, billing, production deployment, Store publication and destructive actions."
+  ]
+}
+

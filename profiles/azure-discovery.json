@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"azure-discovery","pod":"azure","account":"azure-dev","runtime":"go","enabled":true,"commands":["azure.connectivity.check"],"risk":"read_only","required_credentials":["tenant_id","client_id","client_secret","subscription_id"],"success":"OAuth token obtained and bounded subscription GET returns HTTP 200"}
+

@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"azure-release-prod","pod":"azure","account":"azure-prod","runtime":"go","enabled":false,"commands":["azure.deployment.what_if","azure.deployment.apply"],"risk":"approval_required","activation_gate":"two-person approval, protected runner, immutable artifact, policy pass, budget and rollback plan"}
+

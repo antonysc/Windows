@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "common_signals": ["request_latency", "http_status", "provider_request_id", "correlation_id", "retry_after", "rate_limit", "authentication_failure", "permission_denial", "credential_age", "schema_drift", "observed_cost"],
+  "azure_signals": ["activity_log", "resource_health", "service_health", "deployment_state", "policy_compliance", "quota_usage", "budget_actual", "budget_forecast", "metric_alert", "log_query_health", "container_revision_state", "app_service_state", "function_state", "aks_state", "acr_push_state"],
+  "microsoft_store_signals": ["package_validation_state", "submission_state", "certification_state", "flight_state", "rollout_state", "publish_state", "listing_freshness", "analytics_freshness"],
+  "redactions": ["authorization", "access_token", "refresh_token", "client_secret", "certificate_private_key", "federated_token", "tenant_payload", "billing_payload", "personal_data"],
+  "status_mapping": {"401": "REJECTED_AUTHENTICATION", "403": "REJECTED_PERMISSION", "404": "NOT_FOUND_OR_SCOPE_MISMATCH", "409": "CONFLICT", "422": "INVALID_REQUEST", "429": "RETRYABLE_RATE_LIMIT", "5xx": "RETRYABLE_PROVIDER"},
+  "polling": {"jitter": true, "backoff": "exponential_bounded", "honor_retry_after": true},
+  "audit": {"append_only": true, "include": ["account_reference", "capability", "approval_reference", "artifact_digest", "request_id", "status", "observed_at"], "exclude_secret_values": true}
+}
+

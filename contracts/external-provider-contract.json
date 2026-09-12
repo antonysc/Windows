@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "required_dimensions": [
+    "capabilities", "commands", "request_response", "identity",
+    "permissions", "secrets", "costs", "quotas", "monitoring",
+    "failure_semantics", "resilience", "data_governance", "lifecycle",
+    "portability"
+  ],
+  "command_contract": {
+    "input": ["provider", "pod", "account", "capability", "parameters", "idempotency_key", "deadline", "approval_context"],
+    "output": ["status", "provider_operation", "provider_request_id", "data", "error", "rate_limit", "cost", "observed_at"],
+    "statuses": ["SUCCEEDED", "PENDING", "DEGRADED", "RETRYABLE", "REJECTED", "FAILED", "WAITING_CONFIGURATION", "WAITING_APPROVAL"],
+    "risk_classes": ["read_only", "controlled", "approval_required"],
+    "implementations": ["go", "rust", "python"]
+  },
+  "readiness_gates": [
+    "official_surface_inventoried", "role_matrix_recorded",
+    "cost_and_quota_model_recorded", "secrets_externalized",
+    "request_response_normalized", "monitoring_and_alerts_defined",
+    "retry_and_idempotency_defined", "read_only_probe_connected",
+    "mutations_approval_gated"
+  ],
+  "routing_constraints": {
+    "account_isolation": "never route between Azure and Microsoft Store credential boundaries",
+    "load_balancing": "only between semantically equivalent accounts with compatible scope, policy and residency",
+    "fallback": "never translate a destructive, RBAC, billing or publication mutation without explicit equivalence and idempotency evidence",
+    "scaling": "respect provider quotas, retry headers, cost budgets, concurrency and backpressure"
+  }
+}
+

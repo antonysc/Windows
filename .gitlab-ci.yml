@@ -1,0 +1,47 @@
+stages: [validate, discovery, delivery]
+
+default:
+  interruptible: true
+  retry:
+    max: 1
+    when: [runner_system_failure, api_failure]
+
+validate:contracts:
+  stage: validate
+  image: python:3.11-alpine
+  tags: [windows-pod, linux, control-plane]
+  script:
+    - python -m unittest discover -s tests
+    - python scripts/run_connector.py --profile azure-discovery --describe
+    - python scripts/run_connector.py --profile store-discovery --describe
+
+validate:go:
+  stage: validate
+  image: golang:1.27.1-alpine
+  tags: [windows-pod, linux, control-plane]
+  script:
+    - go test ./...
+    - go vet ./...
+
+discovery:azure:
+  stage: discovery
+  image: golang:1.27.1-alpine
+  tags: [windows-pod, linux, control-plane, protected]
+  resource_group: azure-dev
+  when: manual
+  allow_failure: false
+  script:
+    - go run ./adapters/go/cmd/windows-provider-check --pod azure
+
+discovery:microsoft-store:
+  stage: discovery
+  image: golang:1.27.1-alpine
+  tags: [windows-pod, linux, control-plane, protected]
+  resource_group: microsoft-store-prod
+  when: manual
+  allow_failure: false
+  script:
+    - go run ./adapters/go/cmd/windows-provider-check --pod microsoft-store
+
+# Delivery jobs are intentionally absent until their profile gates are proven.
+

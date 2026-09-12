@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"store-delivery-dev","pod":"microsoft-store","account":"microsoft-store-prod","runtime":"go","enabled":false,"commands":["microsoft-store.package.validate","microsoft-store.flight.submission.manage"],"risk":"controlled","activation_gate":"signed immutable package, WACK pass, test product, idempotency and dev approval"}
+

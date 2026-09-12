@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"azure-delivery-dev","pod":"azure","account":"azure-dev","runtime":"go","enabled":false,"commands":["azure.deployment.what_if","azure.deployment.apply"],"risk":"controlled","activation_gate":"immutable IaC, what-if review, scoped custom role, budget, idempotency and dev approval"}
+

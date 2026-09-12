@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"azure-monitoring","pod":"azure","account":"azure-prod","runtime":"go","enabled":false,"commands":["azure.connectivity.check","azure.monitoring.read","azure.cost.read","azure.policy.read"],"risk":"read_only","activation_gate":"OIDC adapter, reader roles and normalized read fixtures proven"}
+

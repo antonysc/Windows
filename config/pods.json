@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "pod": "windows",
+  "subpods": {
+    "azure": {
+      "purpose": "deploy and operate cloud resources and services",
+      "identity_boundary": "azure-resource-manager",
+      "preferred_auth": ["workload_identity_federation", "managed_identity"],
+      "fallback_auth": "service_principal_secret"
+    },
+    "microsoft-store": {
+      "purpose": "package, submit, certify and release Windows applications",
+      "identity_boundary": "partner-center-linked-entra-application",
+      "preferred_auth": ["service_principal_certificate", "service_principal_secret"],
+      "fallback_auth": "interactive_human_for_bootstrap_only"
+    }
+  },
+  "shared": ["command_contract", "statuses", "runner_protocol", "audit_schema", "redaction_policy"],
+  "never_shared": ["tokens", "client_secrets", "certificates", "role_assignments", "approval_context"]
+}
+

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "currency": "provider_billing_currency",
+  "azure": {
+    "api_calls": {"price": 0, "unit": "management request", "note": "No separate Azure Resource Manager request price is generally published; deployed services, egress, storage, logs and support are billed."},
+    "required_controls": ["Cost Management query", "budgets", "forecast", "tags", "resource-group attribution", "environment caps"],
+    "price_source": "Azure Retail Prices API and contract-specific billing data",
+    "never_assume": ["region price equivalence", "free-tier eligibility", "reservation coverage", "egress cost", "tax"]
+  },
+  "microsoft_store": {
+    "api_calls": {"price": 0, "unit": "request", "note": "No separate submission API or CLI request price is published."},
+    "variable_costs": ["developer account registration where applicable", "commerce commission", "tax", "certificate or signing infrastructure", "self-hosted EXE/MSI bandwidth"]
+  },
+  "reviewed_on": "2026-09-12"
+}
+

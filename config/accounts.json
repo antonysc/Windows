@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "accounts": {
+    "azure-prod": {
+      "pod": "azure",
+      "environment": "production",
+      "lifecycle": "onboarding",
+      "identity_type": "workload_identity_federation",
+      "scope": "subscription",
+      "credentials": {
+        "tenant_id": "env://AZURE_PROD_TENANT_ID",
+        "client_id": "env://AZURE_PROD_CLIENT_ID",
+        "subscription_id": "env://AZURE_PROD_SUBSCRIPTION_ID",
+        "oidc_token_file": "env://AZURE_PROD_FEDERATED_TOKEN_FILE"
+      },
+      "secret_backend": "environment"
+    },
+    "azure-dev": {
+      "pod": "azure",
+      "environment": "development",
+      "lifecycle": "onboarding",
+      "identity_type": "service_principal_secret",
+      "scope": "subscription",
+      "credentials": {
+        "tenant_id": "env://AZURE_DEV_TENANT_ID",
+        "client_id": "env://AZURE_DEV_CLIENT_ID",
+        "client_secret": "env://AZURE_DEV_CLIENT_SECRET",
+        "subscription_id": "env://AZURE_DEV_SUBSCRIPTION_ID"
+      },
+      "secret_backend": "environment",
+      "rotation_days": 90
+    },
+    "microsoft-store-prod": {
+      "pod": "microsoft-store",
+      "environment": "production",
+      "lifecycle": "onboarding",
+      "identity_type": "partner_center_entra_application",
+      "credentials": {
+        "tenant_id": "env://MS_STORE_PROD_TENANT_ID",
+        "client_id": "env://MS_STORE_PROD_CLIENT_ID",
+        "client_secret": "env://MS_STORE_PROD_CLIENT_SECRET",
+        "seller_id": "env://MS_STORE_PROD_SELLER_ID",
+        "product_id": "env://MS_STORE_PROD_PRODUCT_ID"
+      },
+      "secret_backend": "environment",
+      "rotation_days": 90
+    }
+  },
+  "account_template": {
+    "required": ["pod", "environment", "lifecycle", "identity_type", "credentials", "secret_backend"],
+    "rule": "add accounts as data; do not duplicate profiles or adapter code"
+  }
+}
+

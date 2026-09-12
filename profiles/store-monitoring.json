@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"store-monitoring","pod":"microsoft-store","account":"microsoft-store-prod","runtime":"go","enabled":false,"commands":["microsoft-store.submission.status","microsoft-store.certification.status","microsoft-store.rollout.status"],"risk":"read_only","activation_gate":"normalized Store read adapters and effective access proven"}
+

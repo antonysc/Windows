@@ -1,0 +1,2 @@
+{"schema_version":1,"id":"store-release-prod","pod":"microsoft-store","account":"microsoft-store-prod","runtime":"go","enabled":false,"commands":["microsoft-store.submission.publish","microsoft-store.rollout.manage"],"risk":"approval_required","activation_gate":"two-person approval, certification evidence, validated listing, audience, schedule and rollback plan"}
+

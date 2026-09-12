@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "runners": {
+    "linux-control": {"executor": "container", "labels": ["windows-pod", "linux", "control-plane"], "uses": ["contract tests", "Azure discovery", "Azure IaC plan", "Store API read operations"], "persistent_secrets": false},
+    "windows-packaging": {"executor": "shell_or_windows_container", "labels": ["windows-pod", "windows", "packaging"], "uses": ["MSIX build", "signing broker", "Windows App Certification Kit"], "persistent_secrets": false},
+    "production-release": {"executor": "isolated", "labels": ["windows-pod", "protected", "production"], "uses": ["approved Azure apply", "approved Store publish"], "protected_refs_only": true, "persistent_secrets": false}
+  },
+  "principles": ["ephemeral job workspace", "immutable image digest", "no privileged container by default", "network allowlist", "artifact provenance", "separate signing service", "append-only audit", "concurrency lock per account and target"]
+}
+

@@ -1,0 +1,46 @@
+name: Windows connection checks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "29 */6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  azure-discovery:
+    runs-on: ubuntu-latest
+    env:
+      AZURE_DEV_TENANT_ID: ${{ secrets.AZURE_DEV_TENANT_ID }}
+      AZURE_DEV_CLIENT_ID: ${{ secrets.AZURE_DEV_CLIENT_ID }}
+      AZURE_DEV_CLIENT_SECRET: ${{ secrets.AZURE_DEV_CLIENT_SECRET }}
+      AZURE_DEV_SUBSCRIPTION_ID: ${{ secrets.AZURE_DEV_SUBSCRIPTION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.1"
+      - run: python scripts/run_connector.py --profile azure-discovery
+
+  store-discovery:
+    runs-on: ubuntu-latest
+    env:
+      MS_STORE_PROD_TENANT_ID: ${{ secrets.MS_STORE_PROD_TENANT_ID }}
+      MS_STORE_PROD_CLIENT_ID: ${{ secrets.MS_STORE_PROD_CLIENT_ID }}
+      MS_STORE_PROD_CLIENT_SECRET: ${{ secrets.MS_STORE_PROD_CLIENT_SECRET }}
+      MS_STORE_PROD_SELLER_ID: ${{ secrets.MS_STORE_PROD_SELLER_ID }}
+      MS_STORE_PROD_PRODUCT_ID: ${{ secrets.MS_STORE_PROD_PRODUCT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.1"
+      - run: python scripts/run_connector.py --profile store-discovery
+
