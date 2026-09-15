@@ -68,9 +68,9 @@ flight creation and production release stay disabled until their gates pass.
 `Azure` is the `azure` sub-pod of `antonysc/Windows`, not a standalone
 repository. Repository-creation agents must consult the durable application map,
 report this existing relationship, and refuse duplicate top-level creation
-unless the owner explicitly overrides the mapping. An accidental empty private
-`antonysc/Azure` repository created on 2026-09-15 is non-canonical and pending
-manual deletion because the available automation credential lacks delete rights.
+unless the owner explicitly overrides the mapping. The accidental empty private
+`antonysc/Azure` repository created on 2026-09-15 was manually deleted and its
+absence was verified through GitHub.
 
 ## Release `REL-001`
 
@@ -84,4 +84,4 @@ remove runner variables. Discovery does not modify Azure or Store data.
 | Timestamp | Tag | Event | Result | Next |
 | --- | --- | --- | --- | --- |
 | `2026-09-12T08:05:25+02:00` | `#Windows` | Repository initialized using the Apple provider methodology | Two isolated sub-pods, shared contract and rollout controls prepared | Bind protected identities and verify discovery |
-| `2026-09-15` | `#Windows` | Owner reconfirmed the Azure → Windows mapping and required cross-agent memory | Mapping made explicit in AGENTS.md, CLAUDE.md and shared application cartography; accidental empty duplicate marked non-canonical and pending manual deletion | Consult the map before every repository mutation |
+| `2026-09-15` | `#Windows` | Owner reconfirmed the Azure → Windows mapping and required cross-agent memory | Mapping made explicit in AGENTS.md, CLAUDE.md and shared application cartography; accidental empty duplicate manually deleted and verified absent | Consult the map before every repository mutation |
