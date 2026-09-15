@@ -1,6 +1,6 @@
 # Project Evolution — Windows
 
-<!-- evolution:reviewed=2026-09-12; timestamp=2026-09-12T08:05:25+02:00; tag=#Windows; owner=antonysc -->
+<!-- evolution:reviewed=2026-09-15; timestamp=2026-09-15T00:00:00+02:00; tag=#Windows; owner=antonysc -->
 
 ## Start Here
 
@@ -63,6 +63,13 @@ end to end.
 Only bounded read probes are enabled. RBAC, deployments, pricing, submissions,
 flight creation and production release stay disabled until their gates pass.
 
+### `D-005` — Azure is mapped under Windows
+
+`Azure` is the `azure` sub-pod of `antonysc/Windows`, not a standalone
+repository. Repository-creation agents must consult the durable application map,
+report this existing relationship, and refuse duplicate top-level creation
+unless the owner explicitly overrides the mapping.
+
 ## Release `REL-001`
 
 Rollout: validate contracts and container → bind protected variables → run
@@ -75,4 +82,4 @@ remove runner variables. Discovery does not modify Azure or Store data.
 | Timestamp | Tag | Event | Result | Next |
 | --- | --- | --- | --- | --- |
 | `2026-09-12T08:05:25+02:00` | `#Windows` | Repository initialized using the Apple provider methodology | Two isolated sub-pods, shared contract and rollout controls prepared | Bind protected identities and verify discovery |
-
+| `2026-09-15` | `#Windows` | Owner reconfirmed the Azure → Windows mapping and required cross-agent memory | Mapping made explicit in AGENTS.md, CLAUDE.md and shared application cartography | Consult the map before every repository mutation |
