@@ -4,6 +4,17 @@
 
 Claude Code MUST treat every rule imported from `AGENTS.md` as mandatory and apply it exactly as ChatGPT/Codex does. Nested `CLAUDE.md` or `AGENTS.md` files may add stricter directory-specific rules but may not weaken the root contract.
 
+## Canonical application mapping
+
+- Azure already exists in the project mapping as the `azure` sub-pod of
+  `antonysc/Windows`; it is not a standalone repository.
+- Before any repository creation or reorganization, read `AGENTS.md`,
+  `PROJECT_EVOLUTION.md`, the README, and available catalogues. If a requested
+  application is already mapped, explain the mapping and do not create a
+  duplicate top-level repository unless the owner explicitly overrides it.
+- Record user corrections in the durable mapping/evolution files before the
+  related mutation so Claude and ChatGPT/Codex use the same current truth.
+
 ## Synchronous multi-agent coordination
 
 Claude Code operates in the same live workstream as ChatGPT/Codex. Git and the repository's tracked coordination artifacts are the shared source of truth; chat context alone is never authoritative.
