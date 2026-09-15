@@ -69,6 +69,26 @@ Run `python scripts/run_connector.py --profile store-discovery`. The probe
 requests the Store scope, sends `X-Seller-Account-Id`, reads only the English
 draft metadata for the configured product and discards the body.
 
+### Parameterized GitHub deployment entry point
+
+`config/microsoft-store-deployment.example.json` is the non-secret deployment
+contract for an app. Copy it for each product and select the package type,
+architectures, languages, markets and publication mode. Keep the product ID as
+an `env://` reference; never commit a live Partner Center identifier or secret.
+
+Validate a plan without contacting Microsoft:
+
+```text
+python scripts/prepare_store_deployment.py \
+  --config config/microsoft-store-deployment.example.json
+```
+
+The `Microsoft Store connector` GitHub workflow exposes the profile and plan as
+manual parameters. `store-discovery` can run the bounded read-only probe after
+repository variables and the client-secret secret are configured. Delivery and
+release selections remain validation-only until their repository profiles and
+approval gates are deliberately enabled.
+
 ## Evidence and promotion
 
 Expected states:

@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNNER = ROOT / "scripts" / "run_connector.py"
+STORE_PLANNER = ROOT / "scripts" / "prepare_store_deployment.py"
 SECRET_NAMES = (
     "AZURE_DEV_TENANT_ID", "AZURE_DEV_CLIENT_ID",
     "AZURE_DEV_CLIENT_SECRET", "AZURE_DEV_SUBSCRIPTION_ID",
@@ -52,6 +53,38 @@ class ConnectorContractTests(unittest.TestCase):
         completed = self.run_profile("--profile", "azure-discovery", "--describe")
         self.assertEqual(0, completed.returncode)
         self.assertEqual("azure-discovery", json.loads(completed.stdout)["id"])
+
+    def test_store_deployment_example_is_parameterized_and_ready(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(STORE_PLANNER),
+                "--config",
+                "config/microsoft-store-deployment.example.json",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, completed.returncode, completed.stderr)
+        result = json.loads(completed.stdout)
+        self.assertEqual("READY", result["status"])
+        self.assertEqual("plan_only", result["action"])
+        self.assertEqual("env://MS_STORE_PROD_PRODUCT_ID", result["microsoftStore"]["productIdReference"])
+
+    def test_store_production_plan_requires_approval(self):
+        example = json.loads((ROOT / "config" / "microsoft-store-deployment.example.json").read_text(encoding="utf-8"))
+        example["environment"] = "production"
+        result = __import__("scripts.prepare_store_deployment", fromlist=["normalize"]).normalize(example, None)
+        self.assertEqual("WAITING_APPROVAL", result["status"])
+
+    def test_store_exe_plan_requires_immutable_https_location(self):
+        module = __import__("scripts.prepare_store_deployment", fromlist=["normalize", "InvalidPlan"])
+        example = json.loads((ROOT / "config" / "microsoft-store-deployment.example.json").read_text(encoding="utf-8"))
+        example["microsoftStore"]["packageType"] = "exe"
+        with self.assertRaises(module.InvalidPlan):
+            module.normalize(example, None)
 
 
 if __name__ == "__main__":

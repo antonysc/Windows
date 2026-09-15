@@ -26,6 +26,12 @@ mutating delivery and production profiles are disabled and approval-gated.
 4. Preview a profile with `python scripts/run_connector.py --profile azure-discovery --describe`.
 5. Run a read-only probe after credentials are bound.
 
+For Microsoft Store delivery planning, start from
+`config/microsoft-store-deployment.example.json` and run
+`python scripts/prepare_store_deployment.py --config <plan.json>`. The manual
+`Microsoft Store connector` GitHub workflow accepts the same plan and a
+selectable connector profile. It never enables publication by itself.
+
 The complete platform model is in `docs/architecture.md`. Machine-readable
 capabilities live in `catalog/`; identity, permission, cost, monitoring,
 runner and secret policy live in `config/`.

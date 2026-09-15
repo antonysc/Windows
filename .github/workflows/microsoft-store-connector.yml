@@ -1,0 +1,83 @@
+name: Microsoft Store connector
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Connector profile to inspect or run
+        required: true
+        default: store-discovery
+        type: choice
+        options:
+          - store-discovery
+          - store-delivery-dev
+          - store-release-prod
+      deployment_config:
+        description: Repository-relative deployment plan
+        required: true
+        default: config/microsoft-store-deployment.example.json
+        type: string
+      approval_ref:
+        description: Required for production or non-hold publication plans
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Validate repository contracts
+        run: python -m unittest discover -s tests -v
+      - name: Describe selected connector profile
+        run: python scripts/run_connector.py --profile "${{ inputs.profile }}" --describe
+      - name: Validate parameterized deployment plan
+        env:
+          APPROVAL_REF: ${{ inputs.approval_ref }}
+        shell: bash
+        run: |
+          arguments=(--config "${{ inputs.deployment_config }}")
+          if [[ -n "$APPROVAL_REF" ]]; then
+            arguments+=(--approval-ref "$APPROVAL_REF")
+          fi
+          python scripts/prepare_store_deployment.py "${arguments[@]}"
+
+  discovery:
+    if: inputs.profile == 'store-discovery'
+    needs: validate
+    runs-on: ubuntu-latest
+    env:
+      MS_STORE_PROD_TENANT_ID: ${{ vars.MS_STORE_PROD_TENANT_ID }}
+      MS_STORE_PROD_CLIENT_ID: ${{ vars.MS_STORE_PROD_CLIENT_ID }}
+      MS_STORE_PROD_CLIENT_SECRET: ${{ secrets.MS_STORE_PROD_CLIENT_SECRET }}
+      MS_STORE_PROD_SELLER_ID: ${{ vars.MS_STORE_PROD_SELLER_ID }}
+      MS_STORE_PROD_PRODUCT_ID: ${{ vars.MS_STORE_PROD_PRODUCT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run bounded read-only Store probe
+        run: python scripts/run_connector.py --profile store-discovery
+
+  mutation-gate:
+    if: inputs.profile != 'store-discovery'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep Store mutations disabled
+        run: |
+          echo "The requested profile is described and validated only."
+          echo "Enable its repository profile only after the documented approval gate is satisfied."

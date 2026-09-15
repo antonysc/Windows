@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "pod": "microsoft-store",
+  "account": "microsoft-store-prod",
+  "environment": "development",
+  "artifactDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "idempotencyKey": "replace-with-ci-run-id",
+  "microsoftStore": {
+    "productId": "env://MS_STORE_PROD_PRODUCT_ID",
+    "packageType": "msix",
+    "packagePath": "dist/application.msixupload",
+    "architectures": ["x64"],
+    "languages": ["en-US", "fr-FR"],
+    "markets": ["FR"],
+    "publishMode": "hold"
+  }
+}
