@@ -26,6 +26,10 @@ mutating delivery and production profiles are disabled and approval-gated.
 4. Preview a profile with `python scripts/run_connector.py --profile azure-discovery --describe`.
 5. Run a read-only probe after credentials are bound.
 
+The manual `Azure connector` GitHub workflow accepts any Azure profile for
+validation. Only `azure-discovery` executes today; the other selections remain
+gated until their profile prerequisites are deliberately enabled.
+
 For Microsoft Store delivery planning, start from
 `config/microsoft-store-deployment.example.json` and run
 `python scripts/prepare_store_deployment.py --config <plan.json>`. The manual

@@ -1,0 +1,74 @@
+name: Azure connector
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Azure connector profile to inspect or run
+        required: true
+        default: azure-discovery
+        type: choice
+        options:
+          - azure-discovery
+          - azure-monitoring
+          - azure-delivery-dev
+          - azure-release-prod
+      approval_ref:
+        description: Required after a controlled or production profile is enabled
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: azure-connector-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Validate repository contracts
+        run: python -m unittest discover -s tests -v
+      - name: Describe selected Azure profile
+        run: python scripts/run_connector.py --profile "${{ inputs.profile }}" --describe
+
+  discovery:
+    if: inputs.profile == 'azure-discovery'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      AZURE_DEV_TENANT_ID: ${{ vars.AZURE_DEV_TENANT_ID }}
+      AZURE_DEV_CLIENT_ID: ${{ vars.AZURE_DEV_CLIENT_ID }}
+      AZURE_DEV_CLIENT_SECRET: ${{ secrets.AZURE_DEV_CLIENT_SECRET }}
+      AZURE_DEV_SUBSCRIPTION_ID: ${{ vars.AZURE_DEV_SUBSCRIPTION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Run bounded read-only Azure probe
+        run: python scripts/run_connector.py --profile azure-discovery
+
+  inactive-profile-gate:
+    if: inputs.profile != 'azure-discovery'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep inactive Azure profiles gated
+        run: |
+          echo "The selected profile was described and validated only."
+          echo "Enable it only after its documented identity, policy, budget, and approval gates are satisfied."

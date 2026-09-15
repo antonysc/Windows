@@ -43,6 +43,16 @@ Run `python scripts/run_connector.py --profile azure-discovery`. The probe
 obtains a token for `https://management.azure.com/.default`, reads exactly one
 subscription resource and discards the response body.
 
+### Manual GitHub entry point
+
+The `Azure connector` workflow validates the selected Azure profile and the
+repository contracts. With `azure-discovery`, it reads tenant, client and
+subscription IDs from GitHub repository variables and the temporary client
+secret from `AZURE_DEV_CLIENT_SECRET`. It then performs only the bounded
+subscription read described above. Monitoring, delivery and production
+profiles remain validation-only until their documented gates and adapters are
+enabled; selecting them does not grant Azure permissions or deploy resources.
+
 ## Microsoft Store
 
 Bootstrap is partly manual by design:
