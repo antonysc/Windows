@@ -87,3 +87,15 @@ remove runner variables. Discovery does not modify Azure or Store data.
 | `2026-09-15` | `#Windows` | Owner reconfirmed the Azure → Windows mapping and required cross-agent memory | Mapping made explicit in AGENTS.md, CLAUDE.md and shared application cartography; accidental empty duplicate manually deleted and verified absent | Consult the map before every repository mutation |
 | `2026-09-15` | `#MicrosoftStore` | Owner requested a configurable GitHub connector for Windows app deployment | Added a parameterized non-secret deployment plan, local validation and a manual GitHub workflow; Store mutations remain disabled behind existing approval gates | Bind protected Partner Center identifiers, reserve a test product and run `store-discovery` |
 | `2026-09-15` | `#Azure` | Owner requested an Azure GitHub workflow | Added a manual profile-selectable workflow; only bounded `azure-discovery` executes, while monitoring and mutation profiles remain gated | Configure least-privilege repository variables and the temporary development secret, then run `azure-discovery` |
+
+## Shared local CI gateway adoption — 2026-09-16
+
+| Field | Current truth |
+|---|---|
+| Scope | `antonysc/Windows` opt-in GitHub and GitLab runner-gateway bridge |
+| Status | `WAITING_CONFIGURATION` — repository contract is present; no live runner or gateway job is claimed |
+| Execution authority | GitHub remains authoritative for repository builds; GitLab owns local mirroring and maintenance |
+| Safety | Manual/opt-in only, fail-closed, no credential or private endpoint committed |
+| Evidence | `.ci/local-runner-gateway.json`, `.github/workflows/local-runner-gateway.yml`, `.gitlab/runner-gateway.yml` |
+| Activation gate | Register the repository-scoped GitHub runner, configure protected variables, allowlist the repository server-side, then capture one real lease |
+| Rollback | Disable `LOCAL_RUNNER_GATEWAY_ENABLED`, remove the root GitLab include if activated, drain admissions, then revert this commit |
