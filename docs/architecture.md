@@ -33,6 +33,13 @@ sub-pod owns credentials and permission evaluation. A command must always carry
 `pod`, `account`, `capability`, `idempotency_key`, `deadline` and, for risky
 operations, `approval_context`.
 
+Bitwarden Secrets Manager is the central source for unavoidable long-lived
+material: Microsoft Store credentials use `stores-prod` through the read-only
+`store-publisher` account; Azure long-lived exceptions use `cloud-prod` through
+`cloud-runtime`. Federation remains preferred for Azure. GitHub/GitLab runner
+bootstrap stays isolated in `cicd`, and no runner account receives Store or cloud
+access by default.
+
 ## Account model
 
 Accounts are records, not code forks. Adding another Azure tenant,
@@ -117,4 +124,3 @@ side states with evidence. A read-only probe cannot promote a write capability.
 - Scale readers separately from deployment and publishing workers.
 - Never fail over a financial, RBAC, destructive or release mutation to a
   different account without explicit semantic equivalence and approval.
-

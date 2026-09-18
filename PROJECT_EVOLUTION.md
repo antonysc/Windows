@@ -99,3 +99,17 @@ remove runner variables. Discovery does not modify Azure or Store data.
 | Evidence | `.ci/local-runner-gateway.json`, `.github/workflows/local-runner-gateway.yml`, `.gitlab/runner-gateway.yml` |
 | Activation gate | Register the repository-scoped GitHub runner, configure protected variables, allowlist the repository server-side, then capture one real lease |
 | Rollback | Disable `LOCAL_RUNNER_GATEWAY_ENABLED`, remove the root GitLab include if activated, drain admissions, then revert this commit |
+
+
+## Bitwarden Secrets Manager adoption — 2026-09-18
+
+| Field | Current truth |
+|---|---|
+| Applicability | Microsoft Store, Azure long-lived exceptions and shared CI |
+| Bitwarden projects | `stores-prod`, `cloud-prod`, `cicd` |
+| Machine accounts | `store-publisher`, `cloud-runtime`, `github-runner` and `gitlab-runner`, each read-only in its own boundary |
+| Status | `DOCUMENTED`; live resolution remains `WAITING_CONFIGURATION` until scoped positive and negative reads are evidenced |
+| Compatibility | Existing connector variables and discovery gates remain unchanged; Azure federation stays preferred |
+| Safety | Repository configuration contains references only; `BWS_ACCESS_TOKEN` stays in protected CI or root-only runtime storage |
+| Activation gate | Authorized project read, denied cross-project read, redacted-log review and existing workflow validation |
+| Rollback | Keep or restore the current protected-variable path, disable Bitwarden selection and rotate any superseded bootstrap token |
