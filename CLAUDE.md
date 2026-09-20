@@ -59,3 +59,9 @@ must converge on the same Portfolio / Workflow behavior.
 
 Repository routing: `Windows` uses profile `provider_platforms` (revision `1.0.0`); canonical registry: `antonysc/Portfolio@main:mai/v1/PROJECT_SCOPE_REGISTRY.yaml`.
 <!-- MAI-ROUTER-V1:END -->
+
+<!-- COEVOL-CLAUDE-MODULE-CONTRACT-V1:BEGIN -->
+## Module catalog synchronization
+
+Follow the replaceable-module contract in `AGENTS.md`. For every code change and commit, keep `module.yaml`, interface documentation, dependency/call metadata, implementation status, and contract tests synchronized with the implementation. Do not couple consumers to a provider-specific implementation, and never commit secret values.
+<!-- COEVOL-CLAUDE-MODULE-CONTRACT-V1:END -->

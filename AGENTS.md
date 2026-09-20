@@ -64,3 +64,20 @@ this task forward correctly?**
 
 Repository routing: `Windows` uses profile `provider_platforms` (revision `1.0.0`); canonical registry: `antonysc/Portfolio@main:mai/v1/PROJECT_SCOPE_REGISTRY.yaml`.
 <!-- MAI-ROUTER-V1:END -->
+
+<!-- COEVOL-MODULE-CONTRACT-V1:BEGIN -->
+## Versioned replaceable-module contract
+
+Every external provider, repository subsystem, and internal component is a replaceable module behind a versioned contract.
+
+- Depend on contracts, never directly on provider implementations.
+- Keep provider-specific behavior behind adapters.
+- Declare provided and required interfaces, implementation status, parameters, exposed calls, dependencies, compatibility, and a concise internal design summary in `module.yaml`.
+- Update `module.yaml`, interface documentation, implementation evidence, and relevant contract tests in the same commit whenever code changes those facts.
+- A change is incomplete when implementation, tests, documentation, and the module catalog disagree.
+- Breaking changes require a new contract version plus an explicit migration and rollback path.
+- Keep dependency and call metadata explicit so repository-wide and internal graphs can be generated automatically.
+- Never place secret values in the repository or module catalog.
+
+The same boundary rule applies inside the repository: internal components communicate through explicit, testable interfaces.
+<!-- COEVOL-MODULE-CONTRACT-V1:END -->
