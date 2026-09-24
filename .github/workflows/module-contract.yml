@@ -28,3 +28,11 @@ jobs:
             echo "Potential secret value detected in module.yaml" >&2
             exit 1
           fi
+          # COEVOL-PODS-PROTOCOL-V1:BEGIN
+          grep -Fq '<!-- COEVOL-PODS-PROTOCOL-V1:BEGIN -->' AGENTS.md
+          grep -Fq 'pods_protocol:' module.yaml
+          grep -Fq 'id: "pods-protocol/v1"' module.yaml
+          grep -Fq 'authority: "antonysc/Pod@main"' module.yaml
+          for model in ChatGPT Claude DeepSeek Qwen; do grep -Fq "$model" AGENTS.md; done
+          if find . -path './.git' -prune -o -type f -path '*/pods-protocol/*' -print | grep -q .; then echo "Local pods-protocol trees are forbidden in consumer repositories; reference antonysc/Pod@main instead." >&2; exit 1; fi
+          # COEVOL-PODS-PROTOCOL-V1:END

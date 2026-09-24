@@ -127,3 +127,11 @@ remove runner variables. Discovery does not modify Azure or Store data.
 | Result | Entry points converge on `route(request, context) -> RoutingResult`; ambiguous mutations fail closed and domain expansion remains bounded. |
 | Rollback | Revert this commit or remove only the `MAI-ROUTER-V1` managed blocks; preserve every unmanaged instruction. |
 | Timeline event | `2026-09-19` — repository bootstrap adopted under the central Portfolio contract. |
+
+### 2026-09-25 — Protocol adoption — pods-protocol/v1
+
+- Canonical authority: `antonysc/Pod@main:templates/pods-protocol/v1/protocol.json`.
+- Consumer only; local protocol forks are forbidden and provider-specific behavior stays behind adapters.
+- Responsibility: Windows platform/provider adapter; consume the canonical Pods contract and keep platform-specific behavior behind adapters.
+- Agent parity: ChatGPT/Codex, Claude, DeepSeek and Qwen consume the same normative `AGENTS.md` contract.
+- CI verifies the canonical reference and rejects local `pods-protocol` trees. No secret material is introduced.

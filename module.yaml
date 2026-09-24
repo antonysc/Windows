@@ -13,3 +13,11 @@ compatibility:
   policy: backward-compatible
   breaking_change: new-contract-version
 internal: "Populate modules, interfaces, calls, parameters, dependencies, and implementation evidence as the repository evolves."
+
+pods_protocol:
+  id: "pods-protocol/v1"
+  authority: "antonysc/Pod@main"
+  role: "consumer"
+  responsibility: "Windows platform/provider adapter; consume the canonical Pods contract and keep platform-specific behavior behind adapters"
+  source: "antonysc/Pod@main:templates/pods-protocol/v1/protocol.json"
+  policy: "reference-only; adapters-local; no-forks; default-deny"

@@ -81,3 +81,17 @@ Every external provider, repository subsystem, and internal component is a repla
 
 The same boundary rule applies inside the repository: internal components communicate through explicit, testable interfaces.
 <!-- COEVOL-MODULE-CONTRACT-V1:END -->
+
+<!-- COEVOL-PODS-PROTOCOL-V1:BEGIN -->
+## Canonical Pods protocol
+
+Protocol authority: `antonysc/Pod@main`, contract `pods-protocol/v1` at `templates/pods-protocol/v1/protocol.json`.
+
+- Every external provider, runtime, runner, cloud adapter, AI agent, and cross-repository integration MUST consume this contract or an explicitly versioned successor owned by `antonysc/Pod`.
+- Do not fork, copy, or redefine the lifecycle/security protocol locally. Provider- or product-specific behavior belongs behind adapters.
+- Security is default-deny: identify/authenticate before authorize; discovery occurs only after authorization and never substitutes for access control. Capabilities, TTLs, attestation, rotation, revocation, audit, and credential destruction on shutdown/delete stay explicit.
+- Canonical lifecycle and COLD/WARM/HOT, cartography, and FinOps semantics come from Pod. If compatibility is not evidenced, mark it `UNKNOWN` and fail closed.
+- Repository responsibility: Windows platform/provider adapter; consume the canonical Pods contract and keep platform-specific behavior behind adapters.
+- Model parity is mandatory: ChatGPT/Codex, Claude, DeepSeek, Qwen, and other agents follow the same normative repository contract. Model-specific wrappers may adapt syntax or tool invocation only; they may not weaken, widen, or replace these rules.
+- Proposed protocol changes are change requests to Pod; this repository owns only its adapters/implementation evidence.
+<!-- COEVOL-PODS-PROTOCOL-V1:END -->
